@@ -3,8 +3,8 @@ export const site = {
   name: 'DS67homeworkshop',
   title: 'DS67homeworkshop — Bengkel Motor, Custom & Race Performance',
   description: 'Bengkel motor untuk service, tune up, bore up, porting 2-tak/4-tak, custom frame, restorasi, mapping ECU, paketan mesin race, dan konsultasi rental motor grasstrack.',
-  ownerPhoto: '', // Example: '/images/owner.webp' (upload photo to public/images/)
-  whatsapp: '', // Example: '6281234567890' (numbers only)
+  ownerPhoto: '/images/owner.webp', // Example: '/images/owner.webp' (upload photo to public/images/)
+  whatsapp: '6281234567890', // Example: '6281234567890' (numbers only)
   instagram: '', // Example: 'https://instagram.com/account'
   address: '',
   hours: '',
