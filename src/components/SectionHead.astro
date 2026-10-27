@@ -1,0 +1,5 @@
+---
+interface Props {label: string; title: string; italic?: string;}
+const {label,title,italic} = Astro.props;
+---
+<div class="section-heading"><p class="eyebrow"><span class="tiny-square"></span>{label}</p><h2>{title} {italic && <em>{italic}</em>}</h2></div>

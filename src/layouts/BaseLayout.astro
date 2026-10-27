@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {site} from '../data/site';
+import translations from '../data/translations.json';
+interface Props { title?: string; description?: string; }
+const {title = site.title, description = site.description} = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#090909" />
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <Header />
+    <main id="main-content"><slot /></main>
+    <Footer />
+    <script is:inline define:vars={{translations}}>
+      // Translate original Indonesian text nodes; retain the exact markup and layout.
+      (() => {
+        const dict = translations;
+        const original = new WeakMap();
+        const nodes = [];
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) { return /^(SCRIPT|STYLE|NOSCRIPT)$/.test(node.parentElement?.tagName || '') || !node.textContent.trim() ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
+        });
+        while (walker.nextNode()) {
+          const n = walker.currentNode;
+          original.set(n, n.textContent);
+          nodes.push(n);
+        }
+        function setLanguage(lang) {
+          if(!['id','en'].includes(lang)) lang='id';
+          document.documentElement.lang=lang;
+          // Default Indonesian SEO metadata stays stable; English is a client-side UX option.
+          document.querySelectorAll('.lang-button').forEach(b=>{const active=b.dataset.lang===lang; b.classList.toggle('is-current',active); b.setAttribute('aria-pressed',String(active));});
+          for(const n of nodes) {
+            const start=original.get(n);
+            const trimmed=start.trim();
+            if(!trimmed) continue;
+            n.textContent = lang==='en' && dict[trimmed] ? start.replace(trimmed,dict[trimmed]) : start;
+          }
+          try {localStorage.setItem('ds67-language',lang);} catch {}
+        }
+        document.querySelectorAll('.lang-button').forEach(b=>b.addEventListener('click',()=>setLanguage(b.dataset.lang)));
+        let initial='id'; try {initial=localStorage.getItem('ds67-language') || 'id'} catch {}
+        setLanguage(initial);
+      })();
+    </script>
+  </body>
+</html>

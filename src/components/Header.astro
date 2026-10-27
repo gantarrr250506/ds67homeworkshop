@@ -1,0 +1,81 @@
+---
+const base = import.meta.env.BASE_URL;
+const links = [
+ {href:'#beranda',text:'Beranda',number:'01'},
+ {href:'#tentang',text:'Tentang',number:'02'},
+ {href:'#layanan',text:'Layanan',number:'03'},
+ {href:'#rental',text:'Rental Grasstrack',number:'04'},
+ {href:'#mobil',text:'Bengkel Mobil',number:'05'},
+];
+---
+<header class="site-header" id="site-header">
+  <div class="wrap nav-inner">
+    <a href={`${base}#beranda`} class="wordmark" aria-label="DS67HomeWorkshop, menuju beranda"><span class="brand-box">DS<span>67</span></span><span class="brand-sub">HOMEWORKSHOP<span class="brand-dot">.</span></span></a>
+    <nav class="desktop-nav" aria-label="Navigasi utama">{links.map(link => <a class="nav-link" href={`${base}${link.href}`} data-section={link.href.slice(1)}><span class="nav-indicator" aria-hidden="true"></span>{link.text}</a>)}</nav>
+    <div class="language-switch" aria-label="Pilihan bahasa"><button class="lang-button is-current" type="button" data-lang="id" aria-pressed="true">ID</button><span aria-hidden="true">/</span><button class="lang-button" type="button" data-lang="en" aria-pressed="false">EN</button></div>
+    <a href={`${base}#layanan`} class="btn btn-outline nav-cta">Lihat layanan <span aria-hidden="true">↗</span></a>
+    <button type="button" class="menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Navigasi seluler" hidden>{links.map(link => <a href={`${base}${link.href}`}><span class="mobile-nav-number">{link.number}</span>{link.text}<span aria-hidden="true">↗</span></a>)}</nav>
+</header>
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('#mobile-nav');
+  const closeMenu = () => { trigger?.setAttribute('aria-expanded', 'false');trigger?.setAttribute('aria-label','Buka menu navigasi');if(nav) nav.hidden=true; };
+  trigger?.addEventListener('click', () => {const open=trigger.getAttribute('aria-expanded') !== 'true';trigger.setAttribute('aria-expanded',String(open));trigger.setAttribute('aria-label',open?'Tutup menu navigasi':'Buka menu navigasi');if(nav) nav.hidden=!open;});
+  nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+  // Single source of truth: section crossing a fixed reading line under the sticky header.
+  // Avoid IntersectionObserver entry ordering: it can activate a lower section too early.
+  const sectionLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.desktop-nav .nav-link'));
+  const mobileLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('#mobile-nav a'));
+  const sectionIds = sectionLinks.map(link => link.dataset.section ?? '').filter(Boolean);
+  const sections = sectionIds.map(id => document.getElementById(id)).filter((section): section is HTMLElement => !!section);
+  const header = document.getElementById('site-header');
+  const onHomepage = location.pathname.replace(/\/+$/, '') === import.meta.env.BASE_URL.replace(/\/+$/, '');
+
+  const activate = (id: string) => {
+    for (const link of [...sectionLinks, ...mobileLinks]) {
+      const active = (link.dataset.section ?? link.hash.slice(1)) === id;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+  };
+
+  // Determine the active section from document coordinates, not the intersection ratio.
+  // The extra 24px prevents early activation while scrolling towards the next section.
+  const syncActiveSection = () => {
+    if (!onHomepage || sections.length === 0) return;
+    const headerHeight = header?.getBoundingClientRect().height ?? 82;
+    const marker = window.scrollY + headerHeight + 24;
+    let current = sections[0].id;
+    for (const section of sections) {
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      if (sectionTop <= marker + 1) current = section.id;
+      else break;
+    }
+    // At the document bottom, the last section is the current destination.
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = sections[sections.length - 1].id;
+    }
+    activate(current);
+  };
+
+  let scrollQueued = false;
+  const onScroll = () => {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(() => { scrollQueued = false; syncActiveSection(); });
+  };
+
+  if (onHomepage) {
+    activate('beranda');
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('hashchange', onScroll);
+    window.addEventListener('pageshow', onScroll);
+    // Let the browser finish restoring a hash/scroll position, then update the nav.
+    requestAnimationFrame(() => requestAnimationFrame(syncActiveSection));
+    window.addEventListener('load', syncActiveSection, { once: true });
+  }
+</script>

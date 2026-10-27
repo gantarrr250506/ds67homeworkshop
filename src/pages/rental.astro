@@ -1,0 +1,18 @@
+---
+// Preserve old page URLs while using the new one-page structure.
+const destination = import.meta.env.BASE_URL + '#rental';
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <meta name="robots" content="noindex,follow" />
+    <title>DS67HomeWorkshop</title>
+    <link rel="canonical" href={new URL(import.meta.env.BASE_URL, Astro.site ?? Astro.url).href} />
+  </head>
+  <body>
+    <p>Halaman ini sudah dipindahkan. <a href={destination}>Lanjut ke bagian rental</a>.</p>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+
+const base = import.meta.env.BASE_URL;
+const links = [
+  { href: base + '#tentang', label: 'Tentang' },
+  { href: base + '#layanan', label: 'Layanan' },
+  { href: base + '#rental', label: 'Rental Grasstrack' },
+  { href: base + '#mobil', label: 'Bengkel Mobil' },
+];
+const currentYear = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap footer-top">
+    <div>
+      <div class="eyebrow">DIBANGUN DENGAN TUJUAN · DS67</div>
+      <a href={base} class="footer-brand">DS67<span>.</span></a>
+      <p>Dirancang untuk setiap perjalanan.<br />Siap untuk langkah berikutnya.</p>
+    </div>
+    <div class="footer-links">
+      {links.map((link) => (
+        <a href={link.href}>{link.label} ↗</a>
+      ))}
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© {currentYear} {site.name}</span>
+    <span>INDONESIA / BENGKEL MOTOR <span class="plus">＋</span></span>
+  </div>
+</footer>

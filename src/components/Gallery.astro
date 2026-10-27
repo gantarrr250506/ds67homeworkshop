@@ -1,0 +1,12 @@
+---
+import {media} from '../data/media';
+const items = [
+ {title:'Bengkel & Perawatan',meta:'01 / SERVICE',src:media.service,alt:'Mekanik melakukan pekerjaan di bengkel motor (foto ilustrasi)'},
+ {title:'Pengerjaan Mesin',meta:'02 / Pengerjaan Mesin',src:media.detail,alt:'Proses pengerjaan motor di bengkel (foto ilustrasi)'},
+ {title:'Custom & Restorasi',meta:'03 / CUSTOM',src:media.workshop,alt:'Suasana pengerjaan motor di bengkel (foto ilustrasi)'},
+];
+---
+<section class="gallery-section section-space" id="galeri"><div class="wrap">
+<div class="gallery-top"><div><p class="eyebrow">04 / DOKUMENTASI BENGKEL</p><h2>Di balik <em>pengerjaan.</em></h2></div><p>Visual pendekatan kerja: detail mesin, proses servis, dan karakter bengkel. Seluruh foto pada bagian ini adalah ilustrasi, bukan portofolio pekerjaan DS67.</p></div>
+<div class="photo-grid">{items.map((item,i)=><figure class:list={['photo-card',i===0&&'photo-card-wide']}><img src={item.src} alt={item.alt} loading="lazy" decoding="async"/><figcaption><span class="eyebrow">{item.meta}</span><strong>{item.title}</strong><small>FOTO ILUSTRASI</small></figcaption></figure>)}</div>
+</div></section>

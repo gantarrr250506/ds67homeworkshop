@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import Gallery from '../components/Gallery.astro';
+import Testimonials from '../components/Testimonials.astro';
+import {site} from '../data/site';
+const base = import.meta.env.BASE_URL;
+const ownerPhotoSrc = site.ownerPhoto
+  ? (site.ownerPhoto.startsWith('/') ? base + site.ownerPhoto.slice(1) : site.ownerPhoto)
+  : '';
+---
+<BaseLayout>
+<section class="hero" id="beranda"><div class="hero-atmosphere" aria-hidden="true"><div class="horizon"></div><div class="orb"></div><div class="grid-floor"></div></div><div class="wrap hero-grid"><div class="hero-copy"><p class="eyebrow hero-label"><span class="status-dot"></span> BENGKEL MOTOR INDEPENDEN / INDONESIA</p><h1><em>Perawatan</em><br/>dan performa motor<span class="period">.</span></h1><p class="hero-intro">Melayani perawatan, perbaikan, modifikasi, dan peningkatan performa motor untuk penggunaan harian maupun kompetisi.</p><div class="hero-actions"><a class="btn btn-white" href="#layanan">Jelajahi layanan <span>↗</span></a><a class="text-link" href="#rental">Rental grasstrack <span>↗</span></a></div><div class="hero-footnote"><span>01 / 03</span><span>LAYANAN MOTOR HARIAN DAN KOMPETISI.</span></div></div><div class="hero-side"><div class="pass-card owner-pass" aria-label="Foto pemilik DS67homeworkshop">
+  {site.ownerPhoto ? <img class="owner-pass-image" src={ownerPhotoSrc} alt="Pemilik DS67homeworkshop" loading="eager" decoding="async"/> : <div class="owner-pass-placeholder" role="img" aria-label="Area untuk foto pemilik bengkel"><span class="owner-pass-mark">DS67</span><span class="owner-pass-placeholder-text">FOTO PEMILIK BENGKEL</span><span class="owner-pass-placeholder-hint">Tambahkan foto resmi pada konfigurasi website</span></div>}
+  <div class="owner-pass-overlay"><div class="pass-upper"><div class="pass-label">DS67 / PEMILIK BENGKEL</div><span>↗</span></div><div class="owner-pass-bottom"><span>DS67 HOMEWORKSHOP</span><strong>DIBANGUN DENGAN KETELITIAN.</strong></div></div>
+</div><p class="hero-side-caption">KETELITIAN DALAM SETIAP PENGERJAAN — DS67</p></div></div><div class="hero-bottom-bar"><div class="wrap"><span>GULIR UNTUK MENJELAJAH ↓</span><span>LAYANAN DISESUAIKAN DENGAN KEBUTUHAN MOTOR.</span></div></div></section>
+<section class="intro-section section-space" id="tentang" aria-labelledby="tentang-title"><div class="wrap intro-layout"><div><p class="eyebrow"><span class="tiny-square"></span> TENTANG DS67HOMEWORKSHOP</p><h2 id="tentang-title">Mengenal <em>DS67HomeWorkshop.</em></h2></div><div class="intro-right"><p>DS67HomeWorkshop merupakan bengkel motor yang melayani kebutuhan perawatan, perbaikan, dan pengembangan sepeda motor. Setiap pekerjaan diawali dengan memahami kondisi kendaraan dan kebutuhan pemiliknya, baik untuk penggunaan harian maupun persiapan kompetisi.</p><a href="#layanan" class="link-arrow">Lihat layanan kami <span>↗</span></a></div></div></section>
+<section class="service-section section-space" id="layanan"><div class="wrap"><SectionHead label="01 / APA YANG KAMI KERJAKAN" title="LAYANAN" italic="BENGKEL MOTOR"/><ServiceGrid/><a href="#layanan" class="btn btn-outline section-button">Lihat detail layanan <span>↗</span></a></div></section>
+<section class="statement-section section-space" id="kompetisi"><div class="wrap statement-inner"><p class="eyebrow">02 / UNTUK LINTASAN</p><h2>Persiapan motor<br/><em>kompetisi.</em></h2><div class="statement-row"><p>Kami melayani bore up, porting, mapping ECU, dan paket pengerjaan mesin balap sesuai kebutuhan serta regulasi kelas kompetisi.</p><a href="#layanan" class="round-arrow" aria-label="Lihat layanan race">↗</a></div></div></section>
+<section class="rental-section section-space" id="rental"><div class="wrap rental-panel"><div class="rental-decoration" aria-hidden="true">67</div><div><p class="eyebrow">03 / GENERASI PENERUS</p><h2>Rental grasstrack<br/><em>untuk anak.</em></h2><p>Tersedia konsultasi sewa motor grasstrack untuk usia kecil. Detail unit, kecocokan peserta, dan jadwal dikonfirmasi saat konsultasi.</p><a class="btn btn-white" href="#rental">Jelajahi rental <span>↗</span></a></div><div class="rental-stamp"><span>GRASSTRACK</span><span>ANAK / RENTAL</span><strong>DS67</strong></div></div></section>
+<Gallery/><Testimonials/>
+<section class="coming-strip" id="mobil"><div class="wrap coming-inner"><div><p class="eyebrow">SEGERA HADIR DI GARASI</p><h2>Layanan bengkel mobil <em>segera hadir.</em></h2></div><a class="link-arrow" href="#mobil">Bengkel mobil <span>↗</span></a></div></section>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import {services, site} from '../data/site';
+const validWhatsapp = /^\d{10,15}$/.test(site.whatsapp);
+---
+<div class="services-grid">{services.map(service => {
+  const msg = `Halo DS67homeworkshop, saya ingin konsultasi layanan ${service.name}.`;
+  const href = validWhatsapp ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(msg)}` : undefined;
+  return <article class="service-tile"><div class="service-top"><span class="mono">{service.no} / 08</span><span class="service-arrow" aria-hidden="true">↗</span></div><div><span class="eyebrow service-tag">{service.tag}</span><h3>{service.name}</h3><p>{service.description}</p></div><div class="service-contact">{href ? <a class="service-wa" href={href} target="_blank" rel="noopener noreferrer" aria-label={`Konsultasi WhatsApp ${service.name}`}><span aria-hidden="true">◉</span> Konsultasi via WhatsApp <span aria-hidden="true">↗</span></a> : <button type="button" class="service-wa is-disabled" disabled title="Isi nomor WhatsApp di src/data/site.ts">WhatsApp belum tersedia</button>}</div></article>
+})}</div>

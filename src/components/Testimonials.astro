@@ -1,0 +1,12 @@
+---
+const examples = [
+ {initials:'01',name:'Ulasan pelanggan pertama',label:'TESTIMONI / PLACEHOLDER',quote:'Tempat untuk menampilkan pengalaman pelanggan tentang servis, penanganan motor, dan komunikasi selama pengerjaan.'},
+ {initials:'02',name:'Ulasan proyek custom',label:'CUSTOM / PLACEHOLDER',quote:'Tempat untuk menampilkan testimoni pemilik motor mengenai proses modifikasi, restorasi, atau custom frame.'},
+ {initials:'03',name:'Ulasan performa race',label:'RACE / PLACEHOLDER',quote:'Tempat untuk menampilkan umpan balik nyata dari pelanggan setelah pengerjaan bore up, porting, atau mapping ECU.'},
+];
+---
+<section class="testimonial-section section-space" id="testimoni"><div class="wrap">
+<div class="testimonial-header"><div><p class="eyebrow">05 / SUARA PELANGGAN</p><h2>Cerita dari<br/><em>pengendara.</em></h2></div><span class="testimonial-status">MENUNGGU ULASAN TERVERIFIKASI</span></div>
+<div class="testimonial-grid">{examples.map(item=><article class="review-card"><div class="review-identity"><div class="avatar-stub" aria-hidden="true">{item.initials}</div><div><strong>{item.name}</strong><span>{item.label}</span></div></div><p>“{item.quote}”</p><div class="review-footer"><span>CONTOH TATA LETAK — BUKAN ULASAN ASLI</span><span>↗</span></div></article>)}</div>
+<p class="testimonial-disclaimer">Section ini siap diganti dengan foto pelanggan, kutipan asli, nama atau inisial, serta izin publikasi. Tidak ada rating atau testimoni fiktif yang diklaim sebagai fakta.</p>
+</div></section>
